@@ -10,9 +10,11 @@
 	"use strict";
 
 	//TODO: add asserts
+	//  code should be a function,
+	//  value-taking methods should have physical values supplied
 
 	function interpret(pipe, array){
-		var stages = pipe.stages, len = stages.length;
+		var stages = pipe.stages, len = stages.length, temp;
 		for(var i = 0; i < len; ++i){
 			var stage = stages[i], f = stage.code;
 			switch(stage.type){
@@ -39,31 +41,34 @@
 				case "fold":
 					return array.reduce(f, stage.value);
 				case "scan":
-					var accumulator = stage.value;
+					temp = stage.value;	// accumulator
 					array = array.map(function(value, index){
-						return accumulator = f(accumulator, value, index);
+						return temp = f(temp, value, index);
 					});
+					temp = null;
 					break;
 				case "skip":
+					temp = stage.value;
 					array = array.filter(function(_, index){
-						return index >= stage.value;
+						return index >= temp;
 					});
 					break;
 				case "skipWhile":
-					var flag = false;
+					temp = false;
 					array = array.filter(function(value, index){
-						return flag || (flag = f(value, index));
+						return temp || (temp = f(value, index));
 					});
 					break;
 				case "take":
+					temp = stage.value;
 					array = array.filter(function(_, index){
-						return index < stage.value;
+						return index < temp;
 					});
 					break;
 				case "takeWhile":
-					var flag = true;
+					temp = true;
 					array = array.filter(function(value, index){
-						return flag && (flag = f(value, index));
+						return temp && (temp = f(value, index));
 					});
 					break;
 				case "voidResult":

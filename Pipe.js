@@ -15,6 +15,28 @@
 
 	function Pipe(){
 		this.stages = [];
+		// stages is an array of objects with following components:
+		//
+		// type: a required string corresponding to one of
+		//       primitive operations (see below)
+		//
+		// Following optional properties represent an executable code
+		// either by an array of strings, or as a function:
+		//
+		// code: this code is executed on every operation
+		// head: this code is executed once before a loop
+		// tail: this code is executed once after a loop
+		//
+		// Following optional properties represent a list of variables
+		// as an array of strings:
+		//
+		// args: a list of additional argument names
+		// vars: a list of additional internal variables
+		//       possibly with initializers
+		//
+		// value: a literal value required by some operations, or
+		//        an Arg object, which tells a name of an argument
+		//        receiving the value (should be in args already)
 	}
 
 	Pipe.Arg = Arg;
