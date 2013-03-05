@@ -53,16 +53,16 @@
 						return index >= temp;
 					});
 					break;
-				case "skipWhile":
-					temp = false;
-					array = array.filter(function(value, index){
-						return temp || (temp = f(value, index));
-					});
-					break;
 				case "take":
 					temp = stage.value;
 					array = array.filter(function(_, index){
 						return index < temp;
+					});
+					break;
+				case "skipWhile":
+					temp = false;
+					array = array.filter(function(value, index){
+						return temp || (temp = !f(value, index));
 					});
 					break;
 				case "takeWhile":

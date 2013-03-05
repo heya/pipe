@@ -40,6 +40,21 @@
 	}
 
 	Pipe.Arg = Arg;
+	Pipe.arg = function(name){ return new Arg(name); };
+
+	function prepareCode(code){
+		if(typeof code == "function"){
+			return code;
+		}
+		if(typeof code == "string"){
+			return code.split("\n");
+		}
+		if(code && code instanceof Array){
+			return code.slice(0);
+		}
+		//TODO: add asserts
+		return null;
+	}
 
 	Pipe.prototype = {
 		add: function(type, stage, context, value){
@@ -47,27 +62,32 @@
 				if(type.stages.length){
 					this.stages.push.apply(this.stages, type.stages);
 				}
-				return;
+				return this;
 			}
 			var s = {type: type};
 			if(stage){
 				if(typeof stage == "string"){
 					s.code = stage.split("\n");
 				}else if(stage instanceof Array){
-					s.code = stage;
+					s.code = stage.slice(0);
 				}else if(typeof stage == "function"){
 					s.code = context ? stage.bind(context) : stage;
 				}else{
-					s.head = stage.head;
-					s.tail = stage.tail;
-					s.args = stage.args;
-					s.vars = stage.vars;
+					// copying arrays
+					stage.args && (s.args = stage.args.slice(0));
+					stage.vars && (s.vars = stage.vars.slice(0));
+					stage.head && (s.head = prepareCode(stage.head));
+					stage.tail && (s.tail = prepareCode(stage.tail));
+					if(stage.hasOwnProperty("value")){
+						s.value = stage.value;
+					}
 				}
 			}
 			if(arguments.length > 3){
-				s.value = stage.value;	// literal value
+				s.value = value;	// literal value
 			}
 			this.stages.push(s);
+			return this;
 		},
 
 		// standard operations
@@ -102,11 +122,11 @@
 		skip: function(value){
 			return this.add("skip", null, null, value);
 		},
-		skipWhile: function(code, context){
-			return this.add("skipWhile", code, context);
-		},
 		take: function(value){
 			return this.add("take", null, null, value);
+		},
+		skipWhile: function(code, context){
+			return this.add("skipWhile", code, context);
 		},
 		takeWhile: function(code, context){
 			return this.add("takeWhile", code, context);
