@@ -25,7 +25,7 @@
 		);
 	}
 
-	function makeFunction(head, tail, lines){
+	function makeBlock(head, tail, lines){
 		return ctr(head + "\n    #{code}\n" + tail, {code: lines}).lines;
 	}
 
@@ -64,7 +64,7 @@
 						code.push("__array.forEach(__e[" + externals.length + "]);");
 						externals.push(f);
 					}else{
-						code.push.apply(code, makeFunction(
+						code.push.apply(code, makeBlock(
 							"__array.forEach(function(value, index){",
 							"});",
 							f
@@ -80,7 +80,7 @@
 						temp = f.slice(0);
 						temp.push("__array[index] = value;");
 					}
-					code.push.apply(code, makeFunction(
+					code.push.apply(code, makeBlock(
 						"__array.forEach(function(value, index, __array){",
 						"});",
 						temp
@@ -93,7 +93,7 @@
 					}else{
 						temp = f.slice(0);
 						temp.push("return value;");
-						code.push.apply(code, makeFunction(
+						code.push.apply(code, makeBlock(
 							"__array = __array.map(function(value, index){",
 							"});",
 							temp
@@ -105,7 +105,7 @@
 						code.push("__array = __array.filter(__e[" + externals.length + "]);");
 						externals.push(f);
 					}else{
-						code.push.apply(code, makeFunction(
+						code.push.apply(code, makeBlock(
 							"__array = __array.filter(function(value, index){",
 							"});",
 							makePredicate("return ${pred};", f)
@@ -120,18 +120,18 @@
 							argsDict[temp] = 1;
 							args.push(temp);
 						}
-						code.push("__array = __array.indexOf(" + temp + ");");
 					}else{
-						code.push("__array = __array.indexOf(__e[" + externals.length + "]);");
+						temp = "__e[" + externals.length + "]";
 						externals.push(v);
 					}
+					code.push("__array = __array.indexOf(" + temp + ");");
 					break loop;
 				case "every":
 					if(typeof f == "function"){
 						code.push("__array = __array.every(__e[" + externals.length + "]);");
 						externals.push(f);
 					}else{
-						code.push.apply(code, makeFunction(
+						code.push.apply(code, makeBlock(
 							"__array = __array.every(function(value, index){",
 							"});",
 							makePredicate("return ${pred};", f)
@@ -143,7 +143,7 @@
 						code.push("__array = __array.some(__e[" + externals.length + "]);");
 						externals.push(f);
 					}else{
-						code.push.apply(code, makeFunction(
+						code.push.apply(code, makeBlock(
 							"__array = __array.some(function(value, index){",
 							"});",
 							makePredicate("return ${pred};", f)
@@ -166,7 +166,7 @@
 						code.push("__array = __array.reduce(__e[" + externals.length + "], " + temp + ");");
 						externals.push(f);
 					}else{
-						code.push.apply(code, makeFunction(
+						code.push.apply(code, makeBlock(
 							"__array = __array.reduce(function(accumulator, value, index){",
 							"}, " + temp + ");",
 							f.concat(["return accumulator;"])
@@ -191,7 +191,7 @@
 					}else{
 						temp2 = f.concat(["return accumulator;"]);
 					}
-					code.push.apply(code, makeFunction(
+					code.push.apply(code, makeBlock(
 						"__array = __array.map((function(accumulator){ return function(value, index){",
 						"}})(" + temp + "));",
 						temp2
@@ -209,7 +209,7 @@
 						temp = "__e[" + externals.length + "]";
 						externals.push(v);
 					}
-					code.push.apply(code, makeFunction(
+					code.push.apply(code, makeBlock(
 						"__array = __array.filter(function(value, index){",
 						"});",
 						"return index >= " + temp + ";"
@@ -227,7 +227,7 @@
 						temp = "__e[" + externals.length + "]";
 						externals.push(v);
 					}
-					code.push.apply(code, makeFunction(
+					code.push.apply(code, makeBlock(
 						"__array = __array.filter(function(value, index){",
 						"});",
 						"return index < " + temp + ";"
@@ -243,7 +243,7 @@
 							f
 						);
 					}
-					code.push.apply(code, makeFunction(
+					code.push.apply(code, makeBlock(
 						"__array = __array.filter((function(__flag){ return function(value, index){",
 						"}})(false));",
 						temp
@@ -259,7 +259,7 @@
 							f
 						);
 					}
-					code.push.apply(code, makeFunction(
+					code.push.apply(code, makeBlock(
 						"__array = __array.filter((function(__flag){ return function(value, index){",
 						"}})(true));",
 						temp
