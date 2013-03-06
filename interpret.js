@@ -78,5 +78,13 @@
 		return array;
 	}
 
+	function curry(pipe){
+		return function(array){
+			return interpret(pipe, array);
+		};
+	}
+
+	interpret.curry = curry;
+
 	return interpret;
 });
