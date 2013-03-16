@@ -303,7 +303,7 @@
 				vars: vars.length ? "var " + vars.join(", ") + ";" : undefined,
 				head: head,
 				code: code,
-				name: name
+				name: name || ("/pipe/arrayCompiler/" + pipe.getName())
 			},
 			externals.length ? {__e: externals} : null
 		);

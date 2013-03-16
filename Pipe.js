@@ -9,6 +9,8 @@
 })(function(){
 	"use strict";
 
+	var uniqNumber = 0;
+
 	function Arg(name){
 		this.name = name;
 	}
@@ -88,6 +90,11 @@
 			}
 			this.stages.push(s);
 			return this;
+		},
+
+		getName: function(){
+			return this.stages.map(function(stage){ return stage.type; }).join("-") +
+				"_" + (uniqNumber++) + ".js";
 		},
 
 		// standard operations
