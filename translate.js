@@ -44,6 +44,8 @@
 			if(isResultSpecified){
 				args.push("__result");
 			}
+		}else{
+			vars.push("__stop");
 		}
 
 		loop: for(var i = 0; i < len; ++i){
@@ -134,28 +136,43 @@
 						externals.push(v);
 					}
 					code.push("if(value === " + temp + ")" +
-						(isLoopEnv ? " return index;" : "{ __result = index; __stop = true; return; }"));
-					defaultReturn = "return -1;";
+						(isLoopEnv ? " return index;" : "{ __stop = true; return __result = index; }"));
+					if(isLoopEnv){
+						defaultReturn = "return -1;";
+					}else{
+						vars.push("__result = -1");
+						defaultReturn = "return __result;";
+					}
 					break loop;
 				case "every":
-					temp = isLoopEnv ? " return false;" : "{ __result = false; __stop = true; return; }";
+					temp = isLoopEnv ? " return false;" : "{ __stop = true; return __result = false; }";
 					if(typeof f == "function"){
 						code.push("if(!(__e[" + externals.length + "])(value, index))" + temp);
 						externals.push(f);
 					}else{
 						code.push.apply(code, makePredicate("if(!(${pred}))" + temp, f));
 					}
-					defaultReturn = "return true;";
+					if(isLoopEnv){
+						defaultReturn = "return true;";
+					}else{
+						vars.push("__result = true");
+						defaultReturn = "return __result;";
+					}
 					break loop;
 				case "some":
-					temp = isLoopEnv ? " return true;" : "{ __result = true; __stop = true; return; }";
+					temp = isLoopEnv ? " return true;" : "{ __stop = true; return __result = true; }";
 					if(typeof f == "function"){
 						code.push("if((__e[" + externals.length + "])(value, index))" + temp);
 						externals.push(f);
 					}else{
 						code.push.apply(code, makePredicate("if(${pred})" + temp, f));
 					}
-					defaultReturn = "return false;";
+					if(isLoopEnv){
+						defaultReturn = "return false;";
+					}else{
+						vars.push("__result = false");
+						defaultReturn = "return __result;";
+					}
 					break loop;
 				case "fold":
 					v = stage.value;
@@ -243,16 +260,16 @@
 				case "skipWhile":
 					temp = "__flag" + (flagLevel++);
 					vars.push(temp + " = true");
-					temp2 = isLoopEnv ? " continue;" : "{ __stop = true; return; }";
+					temp2 = isLoopEnv ? "continue;" : "return;";
 					if(typeof f == "function"){
-						code.push("if(" + temp + " || (" + temp + " = !(__e[" + externals.length + "])(value, index))))" + temp2);
+						code.push("if(" + temp + " || (" + temp + " = !(__e[" + externals.length + "])(value, index)))) " + temp2);
 						externals.push(f);
 					}else{
 						code.push.apply(code, makeBlock(
 							"if(" + temp + "){",
 							"}",
 							makePredicate(
-								"if(" + temp + " = (${pred}))" + temp2,
+								"if(" + temp + " = (${pred})) " + temp2,
 								f
 							)
 						));
@@ -300,9 +317,7 @@
 				}
 			}
 		}else{
-			if(!voidResult && !defaultReturn){
-				defaultReturn = "return __result;";
-			}
+			code.push("return value;");
 		}
 
 		if(indexLevel){
