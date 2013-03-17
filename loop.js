@@ -26,7 +26,7 @@
 			"}"
 		];
 
-	function loop(tmpl, isArraySrc){
+	return function loop(tmpl, isArraySrc){
 		return function(pipe, name, isResultSpecified){
 			var result = translate(pipe, true, isArraySrc, isResultSpecified);
 
@@ -49,7 +49,5 @@
 				name: name || ("/pipe/loop/" + pipe.getName())
 			}, externals.length && {__e: externals});
 		}
-	}
-
-	return loop;
+	};
 });
