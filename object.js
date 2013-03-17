@@ -4,7 +4,7 @@
 	}else if(typeof module != "undefined"){ // node.js
 		module.exports = factory(require("./translate"), require("ctr"));
 	}else{
-		funPipeFun = factory(funPipeTranslate, ctr);
+		funPipeObject = factory(funPipeTranslate, ctr);
 	}
 })(function(translate, ctr){
 	"use strict";
@@ -37,7 +37,7 @@
 			"//@ sourceURL=#{name}"
 		];
 
-	return function fun(pipe, name){
+	return function object(pipe, name){
 		var result = translate(pipe),
 			externals = result.ext,
 			varList = result.args.concat(result.vars.map(function(value){
@@ -72,7 +72,7 @@
 			code: result.code,
 			tail: result.tail,
 			ret:  result.ret,
-			name: name || ("/pipe/fun/" + pipe.getName())
+			name: name || ("/pipe/object/" + pipe.getName())
 		}, externals.length && {externals: externals});
 	};
 });
