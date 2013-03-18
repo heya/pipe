@@ -300,20 +300,22 @@
 				if(!voidResult && !defaultReturn){
 					defaultReturn = "return __result;";
 				}
-			}else{
-				if(dupped){
-					temp2 = isArraySrc && !skipped;
-					if(noIndex && temp2){
-						temp = "__i" + (indexLevel++);
-						vars.push(temp + " = 0");
-						code.push("index = " + temp + "++;");
-						noIndex = false;
-					}
-					vars.push("__result = " + (temp2 ? "new Array(__source.length)" : "[]"));
-					code.push("__result" + (temp2 ? "[index] = value;" : ".push(value);"));
+			}else if(dupped || !isArraySrc){
+				temp2 = isArraySrc && !skipped;
+				if(noIndex && temp2){
+					temp = "__i" + (indexLevel++);
+					vars.push(temp + " = 0");
+					code.push("index = " + temp + "++;");
+					noIndex = false;
 				}
+				vars.push("__result = " + (temp2 ? "new Array(__source.length)" : "[]"));
+				code.push("__result" + (temp2 ? "[index] = value;" : ".push(value);"));
 				if(!voidResult && !defaultReturn){
-					defaultReturn = "return " + (dupped ? "__result;" : "__source;");
+					defaultReturn = "return __result;";
+				}
+			}else{
+				if(!voidResult && !defaultReturn){
+					defaultReturn = "return __source;";
 				}
 			}
 		}else{
