@@ -38,11 +38,11 @@
 				body.push(result.ret);
 			}
 
-			var externals = result.ext,
-				vars = extraArgs ? [result.vars[0]].concat(extraArgs, result.slice(1)): result.vars;
+			var externals = result.ext, vars = result.vars,
+				args = extraArgs ? [result.args[0]].concat(extraArgs, result.args.slice(1)): result.args;
 
 			return ctr(fTmpl, {
-				args: result.args.join(", "),
+				args: args.join(", "),
 				ext:  externals.length ? "var __e = __self.__e;" : undefined,
 				vars: vars.length ? "var " + vars.join(", ") + ";" : undefined,
 				head: result.head,
