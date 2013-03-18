@@ -79,6 +79,7 @@
 					stage.args && (s.args = stage.args.slice(0));
 					stage.vars && (s.vars = stage.vars.slice(0));
 					stage.head && (s.head = prepareCode(stage.head));
+					stage.code && (s.code = prepareCode(stage.code));
 					stage.tail && (s.tail = prepareCode(stage.tail));
 					if(stage.hasOwnProperty("value")){
 						s.value = stage.value;
