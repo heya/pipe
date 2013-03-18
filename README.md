@@ -1,4 +1,4 @@
-# Pipe
+# Pipe [![Build Status](https://travis-ci.org/heya/pipe.png?branch=master)](https://travis-ci.org/heya/pipe)
 
 Pipe: a functional toolkit to build efficient data processing pipes.
 
