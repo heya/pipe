@@ -1,10 +1,10 @@
 (function(factory){
 	if(typeof define != "undefined"){ // AMD
-		define(["ctr", "./Pipe"], factory);
+		define(["ctr", "../Pipe"], factory);
 	}else if(typeof module != "undefined"){ // node.js
-		module.exports = factory(require("ctr"), require("./Pipe"));
+		module.exports = factory(require("ctr"), require("../Pipe"));
 	}else{
-		funPipeTranslate = factory(ctr, funPipePipe);
+		funPipeUtilsTranslate = factory(ctr, funPipePipe);
 	}
 })(function(ctr, Pipe){
 	"use strict";

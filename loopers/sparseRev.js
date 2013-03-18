@@ -1,18 +1,18 @@
 (function(factory){
 	if(typeof define != "undefined"){ // AMD
-		define(["./loop"], factory);
+		define(["../utils/loop"], factory);
 	}else if(typeof module != "undefined"){ // node.js
-		module.exports = factory(require("./loop"));
+		module.exports = factory(require("../utils/loop"));
 	}else{
-		funPipeSparse = factory(funPipeLoop);
+		funPipeLoopersSparseRev = factory(funPipeUtilsLoop);
 	}
 })(function(loop){
 	"use strict";
 
 	return loop(
 		[
-			"// sparse array-based iterator function",
-			"for(var __i = 0; __i < __source.length; ++__i){",
+			"// reversed sparse array-based iterator function",
+			"for(var __i = __source.length; --__i >= 0;){",
 			"    if(__i in __source){",
 			"        var value = __source[__i];",
 			"        #{code}",

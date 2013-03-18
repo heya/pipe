@@ -4,7 +4,7 @@
 	}else if(typeof module != "undefined"){ // node.js
 		module.exports = factory(require("./translate"), require("ctr"));
 	}else{
-		funPipeLoop = factory(funPipeTranslate, ctr);
+		funPipeUtilsLoop = factory(funPipeTranslate, ctr);
 	}
 })(function(translate, ctr){
 	"use strict";
@@ -26,7 +26,7 @@
 			"}"
 		];
 
-	return function loop(tmpl, isArraySrc){
+	return function loop(tmpl, isArraySrc, extraArgs){
 		return function(pipe, name, isResultSpecified){
 			var result = translate(pipe, true, isArraySrc, isResultSpecified);
 
@@ -38,7 +38,8 @@
 				body.push(result.ret);
 			}
 
-			var vars = result.vars, externals = result.ext;
+			var externals = result.ext,
+				vars = extraArgs ? [result.vars[0]].concat(extraArgs, result.slice(1)): result.vars;
 
 			return ctr(fTmpl, {
 				args: result.args.join(", "),

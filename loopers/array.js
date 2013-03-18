@@ -1,10 +1,10 @@
 (function(factory){
 	if(typeof define != "undefined"){ // AMD
-		define(["./loop"], factory);
+		define(["../utils/loop"], factory);
 	}else if(typeof module != "undefined"){ // node.js
-		module.exports = factory(require("./loop"));
+		module.exports = factory(require("../utils/loop"));
 	}else{
-		funPipeArray = factory(funPipeLoop);
+		funPipeLoopersArray = factory(funPipeUtilsLoop);
 	}
 })(function(loop){
 	"use strict";
