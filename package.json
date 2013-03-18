@@ -1,0 +1,27 @@
+{
+  "name": "heya-pipe",
+  "version": "0.1.1",
+  "description": "Pipe: a functional toolkit to build efficient data processing pipes.",
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {
+    "heya-ctr": ">=0.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "node tests/tests.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/heya/pipe.git"
+  },
+  "keywords": [
+    "functional",
+    "data processing",
+    "code generation",
+    "code construction"
+  ],
+  "author": "Eugene Lazutkin <eugene.lazutkin@gmail.com> (http://lazutkin.com/)",
+  "license": "BSD"
+}

@@ -1,8 +1,8 @@
 (function(factory){
 	if(typeof define != "undefined"){ // AMD
-		define(["ctr", "./Pipe"], factory);
+		define(["heya-ctr", "./Pipe"], factory);
 	}else if(typeof module != "undefined"){ // node.js
-		module.exports = factory(require("ctr"), require("./Pipe"));
+		module.exports = factory(require("heya-ctr"), require("./Pipe"));
 	}else{
 		funPipeArrayCompiler = factory(ctr, funPipePipe);
 	}

@@ -1,8 +1,8 @@
 (function(factory){
 	if(typeof define != "undefined"){ // AMD
-		define(["./translate", "ctr"], factory);
+		define(["./translate", "heya-ctr"], factory);
 	}else if(typeof module != "undefined"){ // node.js
-		module.exports = factory(require("./translate"), require("ctr"));
+		module.exports = factory(require("./translate"), require("heya-ctr"));
 	}else{
 		funPipeUtilsLoop = factory(funPipeTranslate, ctr);
 	}
