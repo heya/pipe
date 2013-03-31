@@ -8,7 +8,9 @@
   "dependencies": {
     "heya-ctr": ">=0.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "heya-unit": ">=0.1"
+  },
   "scripts": {
     "test": "node tests/tests.js"
   },
