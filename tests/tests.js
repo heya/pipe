@@ -20,7 +20,8 @@
 	if(typeof define != "undefined"){ // AMD
 		define(deps, factory);
 	}else if(typeof module != "undefined"){ // node.js
-		factory.apply(null, deps.map(req));
+		factory.apply(null, deps.filter(
+			function(_, i){ return i < factory.length; }).map(req));
 	}
 })(function(module, unit, evalWithEnv, Pipe, interpret, arrayCompiler,
 		array, arrayRev, sparse, sparseRev, slice, sliceRev,
