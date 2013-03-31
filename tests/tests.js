@@ -10,18 +10,14 @@
 			"../loopers/keyValues", "../loopers/ownKeyValues",
 			"../loopers/iota", "../loopers/iteratorObj",
 			"../loopers/unfold", "../object"];
-	function req(name){
-		switch(name){
-			case "require": return require;
-			case "module":  return module;
-		}
-		return require(name);
-	}
 	if(typeof define != "undefined"){ // AMD
 		define(deps, factory);
 	}else if(typeof module != "undefined"){ // node.js
-		factory.apply(null, deps.filter(
-			function(_, i){ return i < factory.length; }).map(req));
+		factory.apply(null,
+			deps.filter(function(_, i){ return i < factory.length; }).
+			map(function req(name){
+				return name === "require" && require || name === "module" && module || require(name);
+			}));
 	}
 })(function(module, unit, evalWithEnv, Pipe, interpret, arrayCompiler,
 		array, arrayRev, sparse, sparseRev, slice, sliceRev,
