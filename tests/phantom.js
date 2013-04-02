@@ -1,4 +1,22 @@
+phantom.onError = function(msg, trace){
+	var msgStack = ["PHANTOM ERROR: " + msg];
+	if(trace){
+		msgStack.push("TRACE:");
+		trace.forEach(function(t){
+			msgStack.push(" -> " + (t.file || t.sourceURL) + ": " + t.line +
+				(t.function ? " (in function " + t.function + ")" : ""));
+		});
+	}
+	console.error(msgStack.join('\n'));
+	phantom.exit(1);
+};
+
 var page = require("webpage").create();
+
+page.onError = function(msg){
+	console.error("ERROR: " + msg);
+	phantom.exit(1);
+};
 
 page.onAlert = function(msg){
 	console.log("ALERT: " + msg);
@@ -26,7 +44,7 @@ path.push("tests.html");
 
 page.open(path.join("/"), function(status){
 	if(status !== "success"){
-		console.log("ERROR: Can't load a web page.");
+		console.error("ERROR: Can't load a web page.");
 		phantom.exit(1);
 	}
 });
