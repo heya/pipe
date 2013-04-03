@@ -1,12 +1,5 @@
-(function(factory){
-	if(typeof define != "undefined"){ // AMD
-		define(["../utils/loop", "../Pipe"], factory);
-	}else if(typeof module != "undefined"){ // node.js
-		module.exports = factory(require("../utils/loop"), require("../Pipe"));
-	}else{
-		funPipeLoopersUnfold = factory(funPipeUtilsLoop);
-	}
-})(function(loop, Pipe){
+/* UMD.define */ (typeof define=="function"&&define||function(d,f,m){m={module:module,require:require};module.exports=f.apply(null,d.map(function(n){return m[n]||require(n)}))})
+(["../utils/loop", "../Pipe"], function(loop, Pipe){
 	"use strict";
 
 	var tmplFun = loop(

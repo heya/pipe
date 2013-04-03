@@ -1,12 +1,5 @@
-(function(factory){
-	if(typeof define != "undefined"){ // AMD
-		define(["../utils/loop"], factory);
-	}else if(typeof module != "undefined"){ // node.js
-		module.exports = factory(require("../utils/loop"));
-	}else{
-		funPipeLoopersKeyValuePairs = factory(funPipeUtilsLoop);
-	}
-})(function(loop){
+/* UMD.define */ (typeof define=="function"&&define||function(d,f,m){m={module:module,require:require};module.exports=f.apply(null,d.map(function(n){return m[n]||require(n)}))})
+(["../utils/loop"], function(loop){
 	"use strict";
 
 	return loop(

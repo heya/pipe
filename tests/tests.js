@@ -1,25 +1,16 @@
-(function(factory){
-	var deps = ["module", "heya-unit",
-			"heya-ctr/evalWithEnv", "../Pipe",
-			"../interpret", "../arrayCompiler",
-			"../loopers/array", "../loopers/arrayRev",
-			"../loopers/sparse", "../loopers/sparseRev",
-			"../loopers/slice", "../loopers/sliceRev",
-			"../loopers/enumerator", "../loopers/values",
-			"../loopers/ownKeys", "../loopers/ownValues",
-			"../loopers/keyValues", "../loopers/ownKeyValues",
-			"../loopers/iota", "../loopers/iteratorObj",
-			"../loopers/unfold", "../object"];
-	if(typeof define != "undefined"){ // AMD
-		define(deps, factory);
-	}else if(typeof module != "undefined"){ // node.js
-		factory.apply(null,
-			deps.filter(function(_, i){ return i < factory.length; }).
-			map(function req(name){
-				return name === "require" && require || name === "module" && module || require(name);
-			}));
-	}
-})(function(module, unit, evalWithEnv, Pipe, interpret, arrayCompiler,
+/* UMD.define */ (typeof define=="function"&&define||function(d,f,m){m={module:module,require:require};module.exports=f.apply(null,d.map(function(n){return m[n]||require(n)}))})
+(["module", "heya-unit",
+	"heya-ctr/evalWithEnv", "../Pipe",
+	"../interpret", "../arrayCompiler",
+	"../loopers/array", "../loopers/arrayRev",
+	"../loopers/sparse", "../loopers/sparseRev",
+	"../loopers/slice", "../loopers/sliceRev",
+	"../loopers/enumerator", "../loopers/values",
+	"../loopers/ownKeys", "../loopers/ownValues",
+	"../loopers/keyValues", "../loopers/ownKeyValues",
+	"../loopers/iota", "../loopers/iteratorObj",
+	"../loopers/unfold", "../object"],
+function(module, unit, evalWithEnv, Pipe, interpret, arrayCompiler,
 		array, arrayRev, sparse, sparseRev, slice, sliceRev,
 		enumerator, values, ownKeys, ownValues, keyValues, ownKeyValues,
 		iota, iteratorObj, unfold, object){

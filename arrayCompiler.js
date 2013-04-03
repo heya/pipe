@@ -1,12 +1,5 @@
-(function(factory){
-	if(typeof define != "undefined"){ // AMD
-		define(["heya-ctr", "./Pipe"], factory);
-	}else if(typeof module != "undefined"){ // node.js
-		module.exports = factory(require("heya-ctr"), require("./Pipe"));
-	}else{
-		funPipeArrayCompiler = factory(ctr, funPipePipe);
-	}
-})(function(ctr, Pipe){
+/* UMD.define */ (typeof define=="function"&&define||function(d,f,m){m={module:module,require:require};module.exports=f.apply(null,d.map(function(n){return m[n]||require(n)}))})
+(["heya-ctr", "./Pipe"], function(ctr, Pipe){
 	"use strict";
 
 	function processCode(code, externals, list){
