@@ -14,5 +14,5 @@ npm install heya-pipe
 For your browser-based projects I suggest to use [volo.js](http://volojs.org):
 
 ```
-volo install heya/pipe heya-pipe
+volo add -amdoff heya/pipe heya-pipe
 ```

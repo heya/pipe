@@ -14,7 +14,9 @@
   "scripts": {
     "test": "node tests/tests.js"
   },
+  "amd": {},
   "volo": {
+    "type": "directory",
     "dependencies": {
       "heya-ctr": "heya/ctr"
     }
