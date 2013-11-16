@@ -12,9 +12,9 @@
 	}
 
 	function makePredicate(tail, lines){
-		var len = lines.length;
-		return lines.slice(0, len - 1).concat(
-			ctr(tail, {pred: lines[len - 1]}).lines
+		var last = lines.length - 1;
+		return lines.slice(0, last).concat(
+			ctr(tail, {pred: lines[last]}).lines
 		);
 	}
 
