@@ -13,7 +13,7 @@
 			"            #{undefineVars}",
 			"            #{head}",
 			"        },",
-			"        process: function(value){",
+			"        process: function(value, sink){",
 			"            if(__stop) return value;",
 			"            #{code}",
 			"        },",
