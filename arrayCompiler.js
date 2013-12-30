@@ -261,6 +261,30 @@
 				case "voidResult":
 					voidResult = true;
 					break loop;
+				case "find":
+					if(typeof f == "function"){
+						code.push("__array = __array.find(__e[" + externals.length + "]);");
+						externals.push(f);
+					}else{
+						code.push.apply(code, makeBlock(
+							"__array = __array.find(function(value, index){",
+							"});",
+							makePredicate("return ${pred};", f)
+						));
+					}
+					break loop;
+				case "findIndex":
+					if(typeof f == "function"){
+						code.push("__array = __array.findIndex(__e[" + externals.length + "]);");
+						externals.push(f);
+					}else{
+						code.push.apply(code, makeBlock(
+							"__array = __array.findIndex(function(value, index){",
+							"});",
+							makePredicate("return ${pred};", f)
+						));
+					}
+					break loop;
 			}
 		}
 

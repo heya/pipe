@@ -160,6 +160,24 @@ function(module, unit, evalWithEnv, Pipe, interpret, arrayCompiler,
 			x = interpret(p, testSparseArray);
 			eval(t.TEST("x === undefined"));
 		},
+		function test_interpret_find(t){
+			if(testArray.find){
+				var p = new Pipe().find(function(value){ return value > 1 && value % 2; }),
+					x = interpret(p, testArray);
+				eval(t.TEST("x === 3"));
+				x = interpret(p, testSparseArray);
+				eval(t.TEST("x === 3"));
+			}
+		},
+		function test_interpret_findIndex(t){
+			if(testArray.find){
+				var p = new Pipe().findIndex(function(value){ return value > 1 && value % 2; }),
+					x = interpret(p, testArray);
+				eval(t.TEST("x === 2"));
+				x = interpret(p, testSparseArray);
+				eval(t.TEST("x === 2"));
+			}
+		},
 		function test_interpret_complex(t){
 			var p = new Pipe().
 					take(4).
@@ -443,6 +461,26 @@ function(module, unit, evalWithEnv, Pipe, interpret, arrayCompiler,
 			eval(t.TEST("x === undefined"));
 			x = f(testSparseArray);
 			eval(t.TEST("x === undefined"));
+		},
+		function test_arrayCompiler_find(t){
+			if(testArray.find){
+				var p = new Pipe().find(function(value){ return value > 1 && value % 2; }),
+					f = arrayCompiler(p).compile(),
+					x = f(testArray);
+				eval(t.TEST("x === 3"));
+				x = f(testSparseArray);
+				eval(t.TEST("x === 3"));
+			}
+		},
+		function test_arrayCompiler_findIndex(t){
+			if(testArray.find){
+				var p = new Pipe().findIndex(function(value){ return value > 1 && value % 2; }),
+					f = arrayCompiler(p).compile(),
+					x = f(testArray);
+				eval(t.TEST("x === 2"));
+				x = f(testSparseArray);
+				eval(t.TEST("x === 2"));
+			}
 		},
 		function test_arrayCompiler_complex(t){
 			var p = new Pipe().
@@ -817,6 +855,24 @@ function(module, unit, evalWithEnv, Pipe, interpret, arrayCompiler,
 				},
 				result = percent(testArray);
 			eval(t.TEST("result.join(',') === '7,13,20,27,33'"));
+		},
+		// test find()
+		function test_find(t){
+			var p = new Pipe().find("value > 1 && value % 2"),
+				f = array(p).compile(),
+				x = f(testArray);
+			eval(t.TEST("x === 3"));
+			x = f([2,4,6]);
+			eval(t.TEST("x === undefined"));
+		},
+		// test findIndex()
+		function test_findIndex(t){
+			var p = new Pipe().findIndex("value > 1 && value % 2"),
+				f = array(p).compile(),
+				x = f(testArray);
+			eval(t.TEST("x === 2"));
+			x = f([2,4,6]);
+			eval(t.TEST("x === -1"));
 		}
 	]);
 

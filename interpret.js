@@ -66,6 +66,10 @@
 					break;
 				case "voidResult":
 					return;
+				case "find":
+					return array.find(f);
+				case "findIndex":
+					return array.findIndex(f);
 			}
 		}
 		return array;

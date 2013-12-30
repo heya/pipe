@@ -134,6 +134,12 @@
 		},
 		voidResult: function(){
 			return this.add("voidResult");
+		},
+		find: function(code, context){
+			return this.add("find", code, context);
+		},
+		findIndex: function(code, context){
+			return this.add("findIndex", code, context);
 		}
 	};
 

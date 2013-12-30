@@ -22,7 +22,7 @@
 		return ctr(head + "\n    #{code}\n" + tail, {code: lines}).lines;
 	}
 
-	var useIndex = {indexOf: 1, skip: 1, take: 1};
+	var useIndex = {indexOf: 1, skip: 1, take: 1, findIndex: 1};
 
 	function translate(pipe, isLoopEnv, isArraySrc, isResultSpecified){
 		var args = [], argsDict = {},
@@ -281,6 +281,36 @@
 					break;
 				case "voidResult":
 					voidResult = true;
+					break loop;
+				case "find":
+					temp = isLoopEnv ? " return value;" : "{ __stop = true; return __result = value; }";
+					if(typeof f == "function"){
+						code.push("if((__e[" + externals.length + "])(value, index))" + temp);
+						externals.push(f);
+					}else{
+						code.push.apply(code, makePredicate("if(${pred})" + temp, f));
+					}
+					if(isLoopEnv){
+						defaultReturn = "return;";
+					}else{
+						vars.push("__result");
+						defaultReturn = "return __result;";
+					}
+					break loop;
+				case "findIndex":
+					temp = isLoopEnv ? " return index;" : "{ __stop = true; return __result = index; }";
+					if(typeof f == "function"){
+						code.push("if((__e[" + externals.length + "])(value, index))" + temp);
+						externals.push(f);
+					}else{
+						code.push.apply(code, makePredicate("if(${pred})" + temp, f));
+					}
+					if(isLoopEnv){
+						defaultReturn = "return -1;";
+					}else{
+						vars.push("__result = -1");
+						defaultReturn = "return __result;";
+					}
 					break loop;
 			}
 		}
