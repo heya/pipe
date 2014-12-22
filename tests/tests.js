@@ -9,11 +9,12 @@
 	"../loopers/ownKeys", "../loopers/ownValues",
 	"../loopers/keyValues", "../loopers/ownKeyValues",
 	"../loopers/iota", "../loopers/iteratorObj",
-	"../loopers/unfold", "../object"],
+	"../loopers/unfold", "../object",
+	"../loopers/scanText"],
 function(module, unit, evalWithEnv, Pipe, interpret, arrayCompiler,
 		array, arrayRev, sparse, sparseRev, slice, sliceRev,
 		enumerator, values, ownKeys, ownValues, keyValues, ownKeyValues,
-		iota, iteratorObj, unfold, object){
+		iota, iteratorObj, unfold, object, scanText){
 	"use strict";
 
 	// test data
@@ -872,6 +873,33 @@ function(module, unit, evalWithEnv, Pipe, interpret, arrayCompiler,
 				x = f(testArray);
 			eval(t.TEST("x === 2"));
 			x = f([2,4,6]);
+			eval(t.TEST("x === -1"));
+		},
+		// text a text scan
+		function test_scanText(t){
+			var p = new Pipe().
+					take(Pipe.arg("take")).
+					filter("index % 2 == 0").
+					map("value = +value;").
+					filter("value % 2").
+					map("value = 2 * value;").
+					fold("accumulator = accumulator * value;", Pipe.arg("acc")),
+				f = scanText(p).compile(),
+				x = f("1,2,3,4,5,6", /\d+/g, 0, 4, 1);
+			eval(t.TEST("x === 12"));
+
+			p = new Pipe().map("value = +value;").find("value > 1 && value % 2");
+			f = scanText(p).compile();
+			x = f("1,2,3,4,5,6", /\d+/g);
+			eval(t.TEST("x === 3"));
+			x = f("2,4,6", /\d+/g);
+			eval(t.TEST("x === undefined"));
+
+			p = new Pipe().map("value = +value;").findIndex("value > 1 && value % 2");
+			f = scanText(p).compile();
+			x = f("1,2,3,4,5,6", /\d+/g);
+			eval(t.TEST("x === 2"));
+			x = f("2,4,6", /\d+/g);
 			eval(t.TEST("x === -1"));
 		}
 	]);
