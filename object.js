@@ -17,7 +17,7 @@
 			"            if(__stop) return value;",
 			"            #{code}",
 			"        },",
-			"        stop: function(){",
+			"        stop: function(sink){",
 			"            #{tail}",
 			"            __stop = true;",
 			"        },",
