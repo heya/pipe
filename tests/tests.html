@@ -2,7 +2,10 @@
 <html>
 	<head>
 		<title>heya-pipe test runner</title>
-		<script src="http://requirejs.org/docs/release/2.1.5/minified/require.js"></script>
+		<!-- The next file is needed for Function.prototype.bind(),
+		which is missing in PhantomJS (and old IE). -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.1.11/es5-shim.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.20/require.min.js"></script>
 		<script>
 			require.config({
 				baseUrl: ".",
@@ -15,7 +18,7 @@
 					location: "../node_modules/heya-unit/node_modules/heya-unify"}
 				],
 				paths: {
-					"domReady": "https://raw.github.com/requirejs/domReady/latest/domReady"
+					"domReady": "https://cdnjs.cloudflare.com/ajax/libs/require-domReady/2.0.1/domReady.min"
 				}
 			});
 			require(["require", "./tests", "domReady!"], function(require){
